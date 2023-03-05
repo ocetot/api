@@ -1,6 +1,6 @@
 const db = require('../../db/mysql');
 
-const TABLA = 'cliente';
+const TABLA = 'apitabla';
 
 function todos () {
     return db.todos(TABLA);
