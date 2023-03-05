@@ -6,9 +6,9 @@ exports.success = function (req, res, mensajeOk='', status = 200){
     });
 }
 exports.error = function (req, res, mensajeError='Error Interno', status=500){
-        res.status(statusCode).send({
+        res.status(status).send({
         error : true,
-        status: statusCode,
+        status: status,
         body: mensajeError
     });
 }

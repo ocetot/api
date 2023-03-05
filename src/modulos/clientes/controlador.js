@@ -1,11 +1,16 @@
 const db = require('../../db/mysql');
 
-const TABLA = 'apitabla';
+const tabla = 'apitabla';
 
 function todos () {
-    return db.todos(TABLA);
+    return db.todos(tabla);
+}
+
+function uno(id){
+    return db.uno(tabla, id);
 }
 
 module.exports = {
     todos,
+    uno,
 }
