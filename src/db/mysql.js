@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const config = require('../config');
 
 const dbconfig = {
@@ -57,37 +57,71 @@ conMysql();
 
 
 
-function todos(tabla) {
-    return new Promise ((resolve, reject)=>{
-        conexion.query(`SELECT * FROM ${tabla}`,(error,result)=>{
-            if(error)return reject(error);
-            resolve(result);
+async function todos(tabla) {
+    try {
+      const [rows, fields] = await conexion.promise().query(`SELECT * FROM ??`, [tabla]);
+      return rows;
+    } catch (error) {
+      console.error(`Error en la consulta a la tabla ${tabla}:`, error);
+      throw { error: 'Database error', message: `Error al consultar la tabla ${tabla}` };
+    }
+  }
+  
+
+async function uno(tabla, id) {
+    try {
+      const [rows, fields] = await conexion.promise().query(`SELECT * FROM ${tabla} WHERE id = ?`, [id]);
+      if (rows.length === 0) {
+        throw { error: 'Not found', message: `No se encontró ningún registro con id=${id} en la tabla ${tabla}` };
+      }
+      return rows[0];
+    } catch (error) {
+      console.error(`Error en la consulta a la tabla ${tabla} con id=${id}:`, error);
+      throw { error: 'Database error', message: `Error al consultar la tabla ${tabla} con id=${id}` };
+    }
+  }
+
+  function eliminar (tabla, data){
+    return new Promise((resolve, reject)=>{
+        conexion.query(`DELETE FROM ${tabla} WHERE id=?`, [data.id], (error, result) => {
+            return error ? reject(error) : resolve(result)
         })
     });
-
 }
 
-function uno(tabla,id) {
-    return new Promise ((resolve, reject)=>{
-        conexion.query(`SELECT * FROM ${tabla} WHERE id=${id}`,(error,result)=>{
-            if(error)return reject(error);
-            resolve(result);
-        })
-    });
+function insertar(tabla, data){
+  return new Promise((resolve, reject)=>{
+      conexion.query(`INSERT INTO ${tabla} SET ?`, [data], (error, result) => {
+          return error ? reject(error) : resolve(result)
+      })
+  });
 }
 
-function agragar(tabla, data) {
-
+function actualizar(tabla, data){
+  return new Promise((resolve, reject)=>{
+      conexion.query(`UPDATE ${tabla} SET ? WHERE id = ?`, [data, data.id], (error, result) => {
+          return error ? reject(error) : resolve(result)
+      })
+  });
 }
 
-function eliminar() {
 
-}
+function agregar(tabla, data){
+  if(data && data.id == 0){
+      return insertar(tabla, data);
+  }else{
+      return actualizar(tabla, data);
+  }
+
+}  
+
+
 
 module.exports = {
     todos,
     uno,
-    agragar,
+   insertar,
     eliminar,
+    agregar    
 
 }
