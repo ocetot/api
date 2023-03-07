@@ -1,4 +1,4 @@
-const tabla = 'apitabla';
+const tabla = 'usuarios';
 
 
 module.exports = function (dbInyectada) {

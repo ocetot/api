@@ -27,18 +27,18 @@ function conMysql() {
                 process.exit(1);
             }
         } else {
-            console.log("                        __");
-            console.log("                      .'  '.");
-console.log("                  _.-'/  |  \\");
-console.log("     ,        _.-\"  ,|  /  0 `-. ");
+   console.log("                        __");
+   console.log("                      .'  '.");
+   console.log("                  _.-'/  |  \\");
+   console.log("     ,        _.-\"  ,|  /  0 `-. ");
 console.log("     |\\    .-\"       `--\"\"-.__.'=====================-,");
-console.log("     \\ '-'`        .___.--._)=========================|");
-console.log("      \\            .'      |                          |");
-console.log("       |     /,_.-'        |        conectado         |");
-console.log("     _/   _.'(             |           a  la          |");
-console.log("    /  ,-' \\  \\            |        base de datos     |");
-console.log("    \\  \\    `-'            |             👍😎         |");
-console.log("     `-'                   '--------------------------'");
+   console.log("     \\ '-'`        .___.--._)=========================|");
+   console.log("      \\            .'      |                          |");
+    console.log("       |     /,_.-'        |        conectado         |");
+    console.log("     _/   _.'(             |           a  la          |");
+  console.log("    /  ,-' \\  \\            |        base de datos     |");
+ console.log("    \\  \\    `-'            |             👍😎         |");
+   console.log("     `-'                   '--------------------------'");
         }
     });
     conexion.on('error', err => {
