@@ -81,14 +81,7 @@ async function uno(tabla, id) {
     }
   }
 
-  function eliminar (tabla, data){
-    return new Promise((resolve, reject)=>{
-        conexion.query(`DELETE FROM ${tabla} WHERE id=?`, [data.id], (error, result) => {
-            return error ? reject(error) : resolve(result)
-        })
-    });
-}
-
+  
 function agregar(tabla, data){
   return new Promise((resolve, reject)=>{
       conexion.query(`INSERT INTO ${tabla} SET ? ON DUPLICATE KEY UPDATE ?`, [data,data], (error, result) => {
@@ -98,8 +91,24 @@ function agregar(tabla, data){
 }
 
 
+function eliminar (tabla, data){
+    return new Promise((resolve, reject)=>{
+        conexion.query(`DELETE FROM ${tabla} WHERE id=?`, [data.id], (error, result) => {
+            return error ? reject(error) : resolve(result)
+        })
+    });
+}
 
  
+function query(tabla, consulta) {
+  return new Promise((resolve, reject) => {
+    conexion.query(`SELECT * FROM ${tabla} WHERE ?`, consulta, (error, result) => {
+      return error ? reject(error) : resolve(result[0]);
+    });
+  });
+}
+
+
 
 
 
@@ -107,6 +116,7 @@ module.exports = {
     todos,
     uno,   
     eliminar,
-    agregar    
+    agregar,
+    query   
 
 }
