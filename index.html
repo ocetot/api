@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enviar datos a la API</title>
+</head>
+<body>
+	<h2>Registrar nuevo usuario</h2>
+	<form id="formulario">
+		<label for="nombre">Nombre:</label>
+		<input type="text" id="nombre" name="nombre"><br><br>
+		<label for="usuario">Usuario:</label>
+		<input type="text" id="usuario" name="usuario"><br><br>
+		<label for="password">Contraseña:</label>
+		<input type="password" id="password" name="password"><br><br>
+		<label for="activo">Activo:</label>
+		<input type="checkbox" id="activo" name="activo"><br><br>
+		<input type="submit" value="Registrar">
+	</form>
+
+	<script>
+        const form = document.getElementById('formulario');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+      
+          const nombre = document.getElementById('nombre').value;
+          const usuario = document.getElementById('usuario').value;
+          const password = document.getElementById('password').value;
+          const activo = document.getElementById('activo').checked;
+      
+          const data = {
+            "id": 0,
+            "nombre": nombre,
+            "usuario": usuario,
+            "password": password,
+            "activo": activo
+          };
+      
+          try {
+            const response = await fetch('http://localhost:4000/api/usuarios', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            });
+      
+            const result = await response.json();
+            console.log(result);
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      </script>
+      
+</body>
+</html>
